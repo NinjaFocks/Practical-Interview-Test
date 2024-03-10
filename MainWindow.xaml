@@ -10,7 +10,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="355,10,0,0" TextWrapping="Wrap" Text="Safe Hash Search" VerticalAlignment="Top"/>
         <Button Content="Search" HorizontalAlignment="Left" Margin="476,45,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="0.283,2.133"/>
         <Label Content="Hash:" HorizontalAlignment="Left" Margin="283,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.791,-2.058"/>
-        <TextBox Name="Search" HorizontalAlignment="Left" Margin="325,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.56,-1.484"/>
+        <TextBox Name="SearchInput" HorizontalAlignment="Left" Margin="325,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.56,-1.484" TextChanged="SearchChanged"/>
 
         <DataGrid Name="DataGrid" Margin="176,117,124,77" Width="350" Height="240" AlternatingRowBackground="LightBlue" AutoGenerateColumns = "False">
             <DataGrid.Columns>
@@ -20,7 +20,7 @@
         </DataGrid>
 
         <Label Content="Page" HorizontalAlignment="Left" Margin="357,362,0,0" VerticalAlignment="Top" Height="26"/>
-        <TextBox Name="PageNumberTextBox" HorizontalAlignment="Left" Margin="398,367,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextAlignment="Center" RenderTransformOrigin="0.41,1.171" TextChanged="TextBoxUpdated"/>
+        <TextBox Name="PageNumberInput" HorizontalAlignment="Left" Margin="398,367,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextAlignment="Center" RenderTransformOrigin="0.41,1.171" TextChanged="PageNumberUpdated"/>
         <Label Name="PageTotalCount" HorizontalAlignment="Left" Margin="453,362,0,0" VerticalAlignment="Top" Height="26" Width="72" HorizontalContentAlignment="Center"  RenderTransformOrigin="5.9,-0.46"/>
 
         <Button Name="PrevButton" Content="Previous" HorizontalAlignment="Left" Margin="251,365,0,0" VerticalAlignment="Top" Click="Prev_Clicked" />

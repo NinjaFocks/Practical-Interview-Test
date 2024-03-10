@@ -2,14 +2,6 @@
 using Rdessoy_MCMS_Practical_Interview_Test.Data;
 using System.Windows;
 
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Rdessoy_MCMS_Practical_Interview_Test
 {
     /// <summary>
@@ -18,27 +10,28 @@ namespace Rdessoy_MCMS_Practical_Interview_Test
     public partial class App : Application
     {
         private ServiceProvider serviceProvider;
-        private readonly string _connectionString = "Data Source=\"C:\\Users\\rdess\\Downloads\\MCMS Practical Test (C#)\\MCMS Practical Test\\hashes.sqlite\"";
+        //private readonly string _connectionString = "";
 
         public App()
         {
             ServiceCollection services = new ServiceCollection();
 
-            ConfigureDataServices(services);
+            ConfigureServices(services);
 
-            serviceProvider = services.BuildServiceProvider();
+            serviceProvider = services.BuildServiceProvider();            
         }
 
-        private void ConfigureDataServices(ServiceCollection services)
+        private void ConfigureServices(ServiceCollection services)
         {
-            services.AddDbContext<HashDbContext>(options =>
-            {
-                options.UseSqlite(_connectionString);
-            });
+            //no longer used with the DbContext
+            //services.AddDbContext<HashDbContext>(options =>
+            //{
+            //    options.UseSqlite(_connectionString);
+            //});
 
             services.AddScoped<IDataSource, DataSource>();
 
-            services.AddSingleton<MainWindow>();
+            services.AddSingleton<MainWindow>();            
         }
 
         public void OnStartup(object sender, StartupEventArgs e)

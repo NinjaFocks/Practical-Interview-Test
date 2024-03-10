@@ -27,7 +27,7 @@ namespace Rdessoy_MCMS_Practical_Interview_Test
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Search.Text);
+            MessageBox.Show(SearchInput.Text);
         }
 
         private async void WindowLoaded(object sender, RoutedEventArgs e)
@@ -39,13 +39,12 @@ namespace Rdessoy_MCMS_Practical_Interview_Test
 
         public async Task InitialiseGrid()
         {
-            DataGrid.ItemsSource = await _source.GetHashModelsAsync();
-
-            var count = await _source.GetPageCountAsync();
-            PageTotalCount.Content = $"of {count}";
+            var hashResult = await _source.GetHashModelsAsync();
+            DataGrid.ItemsSource = hashResult.Value;
+            PageTotalCount.Content = $"of {hashResult.Key}";
         }
 
-        private async void TextBoxUpdated(object sender, TextChangedEventArgs e)
+        private async void PageNumberUpdated(object sender, TextChangedEventArgs e)
         {
             if (!_windowLoaded) return;
 
@@ -59,44 +58,58 @@ namespace Rdessoy_MCMS_Practical_Interview_Test
             }
             else
             {
-                DataGrid.ItemsSource = await _source.GetHashModelsAsync(pageNumber: pageNumber);
+                var hashResult = await _source.GetHashModelsAsync(pageNumber: pageNumber);
+                DataGrid.ItemsSource = hashResult.Value;
             }
         }
 
         private void Next_Clicked(object sender, RoutedEventArgs e)
         {
-            var convertSuccess = int.TryParse(PageNumberTextBox.Text, out int pageNumber);
+            var convertSuccess = int.TryParse(PageNumberInput.Text, out int pageNumber);
 
             if (!convertSuccess)
             {
                 MessageBox.Show("Issue with page number, resetting to first page.");
-                PageNumberTextBox.Text = "1";
+                PageNumberInput.Text = "1";
             }
             else
             {
                 var newPageNumber = pageNumber + 1;
-                PageNumberTextBox.Text = newPageNumber.ToString();
+                PageNumberInput.Text = newPageNumber.ToString();
             }            
         }
 
         private void Prev_Clicked(object sender, RoutedEventArgs e)
         {
-            var convertSuccess = int.TryParse(PageNumberTextBox.Text, out int pageNumber);
+            var convertSuccess = int.TryParse(PageNumberInput.Text, out int pageNumber);
 
             if (!convertSuccess)
             {
                 MessageBox.Show("Issue with page number, resetting to first page.");
-                PageNumberTextBox.Text = "1";
+                PageNumberInput.Text = "1";
             }
             else if (pageNumber <= 1)
             {
                 MessageBox.Show("Page number must be greater than or equal to 1.");
-                PageNumberTextBox.Text = "1";
+                PageNumberInput.Text = "1";
             }
             else
             {
                 var newPageNumber = pageNumber - 1;
-                PageNumberTextBox.Text = newPageNumber.ToString();
+                PageNumberInput.Text = newPageNumber.ToString();
+            }   
+        }
+
+        private async void SearchChanged(object sender, TextChangedEventArgs e)
+        {
+            var hashResult = await _source.GetHashModelsAsync(search: SearchInput.Text, pageNumber: 1);
+            DataGrid.ItemsSource = hashResult.Value;
+            PageNumberInput.Text = 1.ToString();
+            PageTotalCount.Content = $"of {hashResult.Key}";
+
+            if (SearchInput.Text.Length == 40 && !SearchInput.Text.Contains(",") && hashResult.Value.Count == 1)
+            {
+                MessageBox.Show($"The hash {SearchInput.Text} currently exists in the database.");
             }
         }
     }
